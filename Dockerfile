@@ -42,8 +42,8 @@ RUN apk add --no-cache --virtual .build-deps \
 	&& docker-php-ext-enable redis imagick \
     && apk del .build-deps
 
-#RUN pip3 install requests bs4 && \
-RUN rm -r /root/.cache
+#RUN pip3 install requests bs4 \
+#     && rm -r /root/.cache
 
 COPY php.ini /usr/local/etc/php/php.ini
 
