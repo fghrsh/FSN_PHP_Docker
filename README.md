@@ -1,6 +1,6 @@
 ## FSN PHP 7.2 Docker
 
-#### Added extension
+#### Added Extension
 - gd, zip, intl, soap, gettext, sockets
 - redis, pgsql, pdo_pgsql, mysqli, pdo_mysql
 - tidy, exif, iconv, bcmath, xmlrpc, imagick, opcache
