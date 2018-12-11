@@ -1,4 +1,4 @@
-## FSN PHP 7.2 Docker
+## FSN PHP 7.3 Docker
 
 #### Added Extension
 - gd, zip, intl, soap, gettext, sockets
@@ -6,4 +6,4 @@
 - tidy, exif, iconv, bcmath, xmlrpc, imagick, opcache
 
 #### Docker Pull Command
-- `docker pull fghrsh/fsn_php:7.2`
+- `docker pull fghrsh/fsn_php:7.3`
