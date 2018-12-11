@@ -1,4 +1,4 @@
-FROM php:7.2.12-fpm-alpine
+FROM php:7.3.0-fpm-alpine
 
 # PHP Composer
 RUN wget https://dl.laravel-china.org/composer.phar -O /usr/local/bin/composer \
@@ -17,6 +17,7 @@ RUN apk add --no-cache --virtual .build-deps \
        libpng-dev \
        tzdata \
        unzip \
+       libzip-dev \
        imagemagick-dev \
        libintl \
        icu \
