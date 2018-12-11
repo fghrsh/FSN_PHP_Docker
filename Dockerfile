@@ -17,6 +17,7 @@ RUN apk add --no-cache --virtual .build-deps \
        libpng-dev \
        tzdata \
        unzip \
+       git \
        libzip-dev \
        imagemagick-dev \
        libintl \
@@ -32,7 +33,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && docker-php-ext-install gd pdo_mysql mysqli pgsql pdo_pgsql opcache xmlrpc exif bcmath intl zip soap iconv gettext sockets tidy \
     && pecl install redis \
     && pecl install imagick \
-	&& docker-php-ext-enable redis imagick \
+    && docker-php-ext-enable redis imagick \
     && apk del .build-deps
 
 COPY php.ini /usr/local/etc/php/php.ini
