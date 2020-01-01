@@ -1,4 +1,4 @@
-FROM php:7.2.21-fpm-alpine
+FROM php:7.2.26-fpm-alpine
 
 # PHP Composer
 RUN wget https://mirrors.aliyun.com/composer/composer.phar -O /usr/local/bin/composer \
@@ -19,6 +19,7 @@ RUN apk add --no-cache --virtual .build-deps \
        unzip \
        git \
        libzip-dev \
+       gnu-libiconv \
        imagemagick-dev \
        libintl \
        icu \
@@ -35,6 +36,8 @@ RUN apk add --no-cache --virtual .build-deps \
     && pecl install imagick \
     && docker-php-ext-enable redis imagick \
     && apk del .build-deps
+
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 COPY php.ini /usr/local/etc/php/php.ini
 
