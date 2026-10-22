@@ -1,17 +1,9 @@
-FROM php:7.3.13-fpm-alpine
+FROM php:8.5.12-fpm-alpine3.24
 
-# PHP Composer
-RUN wget https://mirrors.aliyun.com/composer/composer.phar -O /usr/local/bin/composer \
-    && chmod a+x /usr/local/bin/composer \
-    && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+COPY --from=composer:2.10.3 /usr/bin/composer /usr/local/bin/composer
 
-RUN apk add --no-cache --virtual .build-deps \
-       autoconf \
-       g++ \
-       libtool \
-       make \
-       pcre-dev \
-    && apk add --no-cache\
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS linux-headers openssl-dev \
+    && apk add --no-cache \
        postgresql-dev \
        freetype-dev \
        libpng-dev \
@@ -19,25 +11,20 @@ RUN apk add --no-cache --virtual .build-deps \
        unzip \
        git \
        libzip-dev \
-       gnu-libiconv \
        imagemagick-dev \
        libintl \
-       icu \
        icu-dev \
        tidyhtml-dev \
        libxml2-dev \
        gettext-dev \
-       freetype-dev \
        libjpeg-turbo-dev \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-configure opcache --enable-opcache \
-    && docker-php-ext-install gd pdo_mysql mysqli pgsql pdo_pgsql opcache xmlrpc exif bcmath intl zip soap iconv gettext sockets tidy \
-    && pecl install redis \
-    && pecl install imagick \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-configure ftp --with-ftp-ssl \
+    && docker-php-ext-install -j"$(nproc)" gd pdo_mysql mysqli pgsql pdo_pgsql exif bcmath intl zip soap gettext sockets tidy ftp \
+    && pecl install redis-6.3.0 imagick-3.8.1 \
     && docker-php-ext-enable redis imagick \
+    && rm -rf /tmp/pear \
     && apk del .build-deps
-
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 COPY php.ini /usr/local/etc/php/php.ini
 
